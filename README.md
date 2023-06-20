@@ -6,6 +6,7 @@ notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node
 
 ![](https://github.com/vongomben/smart-foot-brace/blob/main/img/v01.png?raw=true)
 
+![](https://github.com/vongomben/smart-foot-brace/blob/main/img/ui.PNG?raw=true)
 
 ## Various links 
 
