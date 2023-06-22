@@ -52,7 +52,7 @@ Al momendo la comunicazione é seriale, i dati vengono inviati in JSON, in quest
 * [ ] [Acquisti](https://github.com/vongomben/smart-foot-brace/issues?q=is%3Aissue+is%3Aopen+label%3Aacquisti)
 * [ ] [Definire comportamenti ed usi sbagliati del tutore](https://github.com/vongomben/smart-foot-brace/issues/5)
 * [ ] [approvare la colorazione della heatmap](https://github.com/vongomben/smart-foot-brace/issues/6)
-* [ ] prototipare (anche su carta) l'interfaccia che si vuole raggiungere (Con almeno tre livelli di completezza: good better best)
+* [ ] [prototipare (anche su carta) l'interfaccia che si vuole raggiungere (Con almeno tre livelli di completezza: good better best)](https://github.com/vongomben/smart-foot-brace/issues/9)
 * [ ] [Creazione di una BOM](https://github.com/vongomben/smart-foot-brace/issues/7) (meglio su gDrive) che faccia elendo dei pezzi in essere
 * [ ] [File 3D del gesso](https://github.com/vongomben/smart-foot-brace/issues/8)
 
