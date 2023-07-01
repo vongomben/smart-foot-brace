@@ -2,7 +2,9 @@
 notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node-RED UI
 
 
-## Version 0.1 ESP32 + ZNX
+## Version 0.1 ESP32 + ZNX + UI in Node-RED
+
+![](https://github.com/vongomben/smart-foot-brace/blob/main/img/2023-06-30%2019-23-06_470-500.gif?raw=true)
 
 ![](https://github.com/vongomben/smart-foot-brace/blob/main/img/v01.png?raw=true)
 
