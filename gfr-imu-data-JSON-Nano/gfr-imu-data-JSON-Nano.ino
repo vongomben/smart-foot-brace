@@ -67,6 +67,7 @@ void loop() {
   myObject["gfrValue8"] = gfrValue8;
   myObject["gfrValue7"] = gfrValue7;
   myObject["gfrValue6"] = gfrValue6;
+  
   myObject["gfrValue5"] = gfrValue5;
   myObject["gfrValue4"] = gfrValue4;
   myObject["gfrValue3"] = gfrValue3;
