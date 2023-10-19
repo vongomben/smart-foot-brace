@@ -9,6 +9,25 @@
 // The SFE_LSM9DS1 library requires both Wire and SPI be
 // included BEFORE including the 9DS1 library.
 
+#include <WiFi.h>
+const char* mqtt_server =  "broker.hivemq.com"; //"192.168.0.15"//
+#define DEV_NAME "mqttdevice"
+#define MQTT_USER ""
+#define MQTT_PW ""
+
+#include <MQTT.h>
+
+const char* ssid = "salottino";
+const char* password = "scherze771";
+
+
+WiFiClient net;
+PubSubClient client(espClient);
+unsigned long lastMillis = 0;
+long lastMsg = 0;
+char msg[50];
+int value = 0;
+
 #include <Wire.h>
 #include <SPI.h>
 #include <SparkFunLSM9DS1.h>
@@ -34,7 +53,7 @@ static unsigned long lastPrint = 0;  // Keep track of print time
 
 // Potentiometer is connected to GPIO 34 (Analog ADC1_CH6)
 const int grf8 = 39;
-const int grf7 = 34; //36
+const int grf7 = 34;  //36
 const int grf6 = 25;
 const int grf5 = 26;
 const int grf4 = 14;
@@ -59,11 +78,42 @@ void printAccel();
 void printMag();
 void printAttitude(float ax, float ay, float az, float mx, float my, float mz);
 
+
+void connect() {
+  Serial.print("checking wifi...");
+  while (WiFi.status() != WL_CONNECTED) {
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.print("\nconnecting...");
+  while (!client.connect(DEV_NAME, MQTT_USER, MQTT_PW)) {
+    Serial.print(".");
+    delay(1000);
+  }
+  Serial.println("\nconnected!");
+  client.subscribe("/hello");  //SUBSCRIBE TO TOPIC /hello
+}
+void messageReceived(String& topic, String& payload) {
+  Serial.println("incoming: " + topic + " - " + payload);
+  if (topic == "/hello") {
+    if (payload == "open") {
+      Serial.println("open");
+   //   digitalWrite(LED_BUILTIN, HIGH);
+    } else if (payload == "closed") {
+      Serial.println("closed");
+     // digitalWrite(LED_BUILTIN, LOW);
+    }
+  }
+}
+
+
+
+
 void setup() {
   Serial.begin(115200);
   delay(1000);
 
-Wire.begin();
+  Wire.begin();
 
   if (imu.begin() == false)  // with no arguments, this uses default addresses (AG:0x6B, M:0x1E) and i2c port (Wire).
   {
@@ -77,9 +127,22 @@ Wire.begin();
       ;
   }
 
+  WiFi.begin(ssid, pass);
+  // Note: Local domain names (e.g. "Computer.local" on OSX) are not supported by Arduino.
+  // You need to set the IP address directly.
+  //
+  // MQTT brokers usually use port 8883 for secure connections.
+  client.begin(BROKER_IP, 1883, net);
+  client.onMessage(messageReceived);
+  connect();
 }
 
 void loop() {
+
+  client.loop();
+  if (!client.connected()) {
+    connect();
+  }
 
   // Update the sensor values whenever new data is available
   if (imu.gyroAvailable()) {
@@ -118,14 +181,14 @@ void loop() {
   myObject["gfrValue8"] = gfrValue8;
   myObject["gfrValue7"] = gfrValue7;
   myObject["gfrValue6"] = gfrValue6;
-  
+
   myObject["gfrValue5"] = gfrValue5;
   myObject["gfrValue4"] = gfrValue4;
   myObject["gfrValue3"] = gfrValue3;
   myObject["gfrValue2"] = gfrValue2;
   myObject["gfrValue1"] = gfrValue1;
 
-// getting roll pitch and heading inside of the loop
+  // getting roll pitch and heading inside of the loop
 
   float roll = atan2(imu.ay, imu.az);
   float pitch = atan2(-imu.ax, sqrt(imu.ay * imu.ay + imu.az * imu.az));
@@ -154,9 +217,16 @@ void loop() {
   // JSON.stringify(myVar) can be used to convert the JSONVar to a String
   String jsonString = JSON.stringify(myObject);
 
-  Serial.println(jsonString);
+
 
   //  Serial.println();
 
   delay(20);
+
+    if (millis() - lastMillis > 5000) {
+    lastMillis = millis();
+    Serial.println(jsonString);
+
+    client.publish("/smart-foot-brace", jsonString); //PUBLISH TO TOPIC /hello MSG world
+  }
 }

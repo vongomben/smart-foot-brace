@@ -2,12 +2,33 @@
 //
 // exposing the 8 grf points and LSM9DS1 IMU as a JSON Object
 //
-// 17 October 2023, Turin, Davide Gomba
+// 18 October 2023, Turin, Davide Gomba
 //
 // ESP32 dev module IoT Example
 
 // The SFE_LSM9DS1 library requires both Wire and SPI be
 // included BEFORE including the 9DS1 library.
+
+#include <WiFi.h>
+#include <PubSubClient.h>
+#include <Wire.h>
+#include <Arduino.h>
+
+
+// Replace the next variables with your SSID/Password combination
+const char* ssid = "salottino";
+const char* password = "scherze771";
+
+// Add your MQTT Broker IP address, example:
+//const char* mqtt_server = "192.168.1.144";
+const char* mqtt_server = "broker.hivemq.com";
+//const char* mqtt_server = "192.168.0.128"; 
+
+WiFiClient espClient;
+PubSubClient client(espClient);
+long lastMsg = 0;
+char msg[50];
+int value = 0;
 
 #include <Wire.h>
 #include <SPI.h>
@@ -34,7 +55,7 @@ static unsigned long lastPrint = 0;  // Keep track of print time
 
 // Potentiometer is connected to GPIO 34 (Analog ADC1_CH6)
 const int grf8 = 39;
-const int grf7 = 34; //36
+const int grf7 = 34;  //36
 const int grf6 = 25;
 const int grf5 = 26;
 const int grf4 = 14;
@@ -59,11 +80,16 @@ void printAccel();
 void printMag();
 void printAttitude(float ax, float ay, float az, float mx, float my, float mz);
 
+
+
 void setup() {
   Serial.begin(115200);
-  delay(1000);
 
-Wire.begin();
+  setup_wifi();
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
+
+  Wire.begin();
 
   if (imu.begin() == false)  // with no arguments, this uses default addresses (AG:0x6B, M:0x1E) and i2c port (Wire).
   {
@@ -76,10 +102,80 @@ Wire.begin();
     while (1)
       ;
   }
-
 }
 
+void setup_wifi() {
+  delay(10);
+  // We start by connecting to a WiFi network
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void callback(char* topic, byte* message, unsigned int length) {
+/*  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String messageTemp;
+
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
+  }
+  Serial.println();
+
+  // Feel free to add more if statements to control more GPIOs with MQTT
+
+  // If a message is received on the topic esp32/output, you check if the message is either "on" or "off".
+  // Changes the output state according to the message
+  if (String(topic) == "esp32/output") {
+    Serial.print("Changing output to ");
+    if (messageTemp == "on") {
+      Serial.println("on");
+      //   digitalWrite(ledPin, HIGH);
+    } else if (messageTemp == "off") {
+      Serial.println("off");
+      // digitalWrite(ledPin, LOW);
+    }
+  }*/
+}
+
+void reconnect() {
+  // Loop until we're reconnected
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    // Attempt to connect
+    if (client.connect("ESP8266Client")) {
+      Serial.println("connected");
+      // Subscribe
+      client.subscribe("esp32/output");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+      // Wait 5 seconds before retrying
+      delay(5000);
+    }
+  }
+}
 void loop() {
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
 
   // Update the sensor values whenever new data is available
   if (imu.gyroAvailable()) {
@@ -118,14 +214,14 @@ void loop() {
   myObject["gfrValue8"] = gfrValue8;
   myObject["gfrValue7"] = gfrValue7;
   myObject["gfrValue6"] = gfrValue6;
-  
+
   myObject["gfrValue5"] = gfrValue5;
   myObject["gfrValue4"] = gfrValue4;
   myObject["gfrValue3"] = gfrValue3;
   myObject["gfrValue2"] = gfrValue2;
   myObject["gfrValue1"] = gfrValue1;
 
-// getting roll pitch and heading inside of the loop
+  // getting roll pitch and heading inside of the loop
 
   float roll = atan2(imu.ay, imu.az);
   float pitch = atan2(-imu.ax, sqrt(imu.ay * imu.ay + imu.az * imu.az));
@@ -154,9 +250,16 @@ void loop() {
   // JSON.stringify(myVar) can be used to convert the JSONVar to a String
   String jsonString = JSON.stringify(myObject);
 
-  Serial.println(jsonString);
 
-  //  Serial.println();
+const char* jsonChar = jsonString.c_str();
 
-  delay(20);
+
+
+  long now = millis();
+  if (now - lastMsg > 5000) {
+    lastMsg = now;
+
+    Serial.println("jsonString");
+    client.publish("/smart-foot-brace", jsonChar);
+  }
 }
