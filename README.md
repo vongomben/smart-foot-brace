@@ -3,7 +3,10 @@ notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node
 
 ## Version 0.2 ESP32 + ZNX + IMU! + UI in Node-RED
 
+[![Video Demo](https://img.youtube.com/vi/xqr3MOrHMZ4/0.jpg)](https://www.youtube.com/watch?v=xqr3MOrHMZ4)
 
+
+![](https://github.com/vongomben/smart-foot-brace/blob/main/img/v02.png)
 
 |ref|description                               |label  |Manufacturer|MPN               |DPN               |link                                                                                          |
 |---|------------------------------------------|-------|------------|------------------|------------------|----------------------------------------------------------------------------------------------|
@@ -18,7 +21,6 @@ notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node
 |9  |MODULO DC-DC BOOST CONVERTER 2 AMPERE     |Buck   |Pinto       |056.044.3838      |056.044.3838      |                                                                                              |
 
 
-![](https://github.com/vongomben/smart-foot-brace/blob/main/img/v02.png)
 
 ## Version 0.1 ESP32 + ZNX + UI in Node-RED
 
