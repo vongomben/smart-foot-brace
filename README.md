@@ -1,6 +1,24 @@
 # smart-foot-brace
 notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node-RED UI
 
+## Version 0.2 ESP32 + ZNX + IMU! + UI in Node-RED
+
+
+
+|ref|description                               |label  |Manufacturer|MPN               |DPN               |link                                                                                          |
+|---|------------------------------------------|-------|------------|------------------|------------------|----------------------------------------------------------------------------------------------|
+|1  |Sensore Soletta                           |ZNX-01 |Qiter       |Qiter4hr835o19f   |B08CXZ6QWM        |https://www.amazon.it/intelligente-pressione-Accessorio-tappetino-sensibile/dp/B08CXZ6QWM     |
+|2  |MCU                                       |ESP32  |AZDelivery  |B071P98VTG        |B071P98VTG        |https://www.amazon.it/AZDelivery-NodeMCU-Development-Arduino-gratuito/dp/B071P98VTG/          |
+|3  | 3.7V 1000mAh Battery                     |Battery|AKZYTUE     |A202106326        |A202106326        |https://www.amazon.it/AKZYTUE-Batteria-ricaricabile-polimeri-connettore/dp/B0983K9BMK/        |
+|4  |TP4056 USB C Tipo C Modulo di ricarica (3)|Charger|RED DAMORE  |B0BJQPN3RG        |B0BJQPN3RG        |https://www.amazon.it/RED-DAMORE-ricarica-batteria-protezione/dp/B0BJQPN3RG/                  |
+|~5~  |~DC-DC Buck Converter (6)~                  |Buck   |DUBEUYEW    |B0B4SYBGQL        |B0B4SYBGQL        |https://www.amazon.it/DUBEUYEW-Converter-Modulo-alimentazione-regolabile/dp/B0B4SYBGQL        |
+|6  |Interruttore a Scorrimento                |SWITCH |RUNCCI-YUN  |B09TVDZ8P2        |B09TVDZ8P2        |https://www.amazon.it/RUNCCI-YUN-Interruttore-Scorrimento-Posizione-Elettronici/dp/B09TVDZ8P2/|
+|7  |FILAMENT                                  |3D     |SUNLU       |‎SLUK-TPU-WT-0.5KG|‎SLUK-TPU-WT-0.5KG|https://www.amazon.it/SUNLU-Filament-Dimensional-Accuracy-Printing/dp/B07R6PMXSP              |
+|8  |IMU LSM9Ds1                               |IMU    |Sparkfun    |SEN-13284         |SEN-13284         |https://www.sparkfun.com/products/retired/13284                                               |
+|9  |MODULO DC-DC BOOST CONVERTER 2 AMPERE     |Buck   |Pinto       |056.044.3838      |056.044.3838      |                                                                                              |
+
+
+![](https://github.com/vongomben/smart-foot-brace/blob/main/img/v02.png)
 
 ## Version 0.1 ESP32 + ZNX + UI in Node-RED
 
