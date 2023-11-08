@@ -6,6 +6,14 @@ notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node
 
 [![Video Demo](https://img.youtube.com/vi/2Io1VRFC9aA/0.jpg)](https://www.youtube.com/watch?v=2Io1VRFC9aA)
 
+
+La suola trasmette tutti i dati attraverso bluetooth. 
+Per visualizzare questo progetto abbiamo usato p5js, e la sua implementazione della libreria BLE
+Qui il [codice](https://editor.p5js.org/vongomben/sketches/Wb9gCTJpH)
+
+
+
+
 ## Version 0.2 ESP32 + ZNX + IMU! + UI in Node-RED
 
 [![Video Demo](https://img.youtube.com/vi/2a6iHeYnoPc/0.jpg)](https://www.youtube.com/watch?v=2a6iHeYnoPc)
