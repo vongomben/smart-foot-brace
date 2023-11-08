@@ -33,10 +33,30 @@ BLESerial bleSerial;
 
 LSM9DS1 imu;
 
-#include <Arduino_JSON.h>
+//#include <Arduino_JSON.h>
 
 float angles[3];
 
+// Potentiometer is connected to GPIO 34 (Analog ADC1_CH6)
+const int grf8 = 39;
+const int grf7 = 34;  //36
+const int grf6 = 25;
+const int grf5 = 26;
+const int grf4 = 14;
+const int grf3 = 35;
+const int grf2 = 32;
+const int grf1 = 33;
+
+
+// variable for storing the potentiometer value
+int gfrValue8 = 0;
+int gfrValue7 = 0;
+int gfrValue6 = 0;
+int gfrValue5 = 0;
+int gfrValue4 = 0;
+int gfrValue3 = 0;
+int gfrValue2 = 0;
+int gfrValue1 = 0;
 
 
 ////////////////////////////
@@ -82,9 +102,14 @@ void setup() {
 
 void loop() {
 
-  JSONVar myObject;
-
-  //myObject["vers"] = 1;
+  gfrValue8 = analogRead(grf8);
+  gfrValue7 = analogRead(grf7);
+  gfrValue6 = analogRead(grf6);
+  gfrValue5 = analogRead(grf5);
+  gfrValue4 = analogRead(grf4);
+  gfrValue3 = analogRead(grf3);
+  gfrValue2 = analogRead(grf2);
+  gfrValue1 = analogRead(grf1);
 
   if (imu.gyroAvailable()) {
     imu.readGyro();
@@ -117,28 +142,45 @@ void loop() {
   pitch *= 180.0 / PI;
   roll *= 180.0 / PI;
 
-  myObject["ax"] = roll;
-  myObject["ay"] = pitch;
-  myObject["az"] = heading;
+  angles[0] = roll;
+  angles[1] = pitch;
+  angles[2] = heading;
+
+  float ax = roll;
+  float ay = pitch;
+  float az = heading;
+  uint16_t values[] = { gfrValue8, gfrValue7, gfrValue6, gfrValue5, gfrValue4, gfrValue3, gfrValue2, gfrValue1 };
+
+  unsigned int dataLength = 3 * sizeof(float) + 8 * sizeof(uint16_t);
+  byte dataBytes[dataLength];
+
+  // Copia dei valori float nell'array di byte
+  memcpy(dataBytes, &ax, sizeof(ax));
+  memcpy(dataBytes + sizeof(ax), &ay, sizeof(ay));
+  memcpy(dataBytes + sizeof(ax) + sizeof(ay), &az, sizeof(az));
+
+  // Copia dei valori uint16_t nell'array di byte
+  for (int i = 0; i < 8; i++) {
+    memcpy(dataBytes + 3 * sizeof(float) + i * sizeof(uint16_t), &values[i], sizeof(uint16_t));
+  }
+
+  String dataset1 = String(roll) + "|" + String(pitch) + "|" + String(heading) + "|" + String(gfrValue8) + "|" + String(gfrValue7) + "|" + String(gfrValue6) + "|" + String(gfrValue5) + "|" + String(gfrValue4) + "|" + String(gfrValue3) + "|" + String(gfrValue2) + "|" + String(gfrValue1) + "?";
 
 
-  // JSON.stringify(myVar) can be used to convert the JSONVar to a String
-  String jsonString = JSON.stringify(myObject);
-
-    //Serial.println(jsonString);
-
-  String dataset = String(roll) + "|" + String(pitch) + "|" + String(heading);
-  //Serial.println(dataset);
-
-
+  //If we're connected
   if (bleSerial.connected()) {
+    //Send the analog value
+    //for (int i = 0; i < 3; i++) {  // Assuming angles has 3 elements
+    //bleSerial.print(dataset1);
+    bleSerial.write(dataBytes, dataLength);
+    //bleSerial.print(dataset2);
+    bleSerial.flush();
+    //Serial.println(dataset1);
+    delay(100);
 
-    bleSerial.println(jsonString);
-    Serial.println(jsonString);
-
-     delay(50);
 
 
   }
+
 
 }

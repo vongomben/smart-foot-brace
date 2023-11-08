@@ -61,6 +61,17 @@ void printMag();
 void printAttitude(float ax, float ay, float az, float mx, float my, float mz);
 
 
+bool waitForAck = false;
+unsigned long ackTimeout = 200; // Tempo massimo di attesa dell'ack in millisecondi
+unsigned long lastAckTime;
+
+// Invia i dati via BLE
+void sendData(String data) {
+  bleSerial.println(data);
+  waitForAck = true;
+  lastAckTime = millis();
+}
+
 void setup() {
   Serial.begin(115200);
   bleSerial.begin("Smart-Sole-01");

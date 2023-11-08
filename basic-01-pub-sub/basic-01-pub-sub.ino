@@ -10,7 +10,7 @@
 // included BEFORE including the 9DS1 library.
 
 #include <WiFi.h>
-const char* mqtt_server =  "broker.hivemq.com"; //"192.168.0.15"//
+const char* mqtt_server = "broker.hivemq.com";  //"192.168.0.15"//
 #define DEV_NAME "mqttdevice"
 #define MQTT_USER ""
 #define MQTT_PW ""
@@ -98,10 +98,10 @@ void messageReceived(String& topic, String& payload) {
   if (topic == "/hello") {
     if (payload == "open") {
       Serial.println("open");
-   //   digitalWrite(LED_BUILTIN, HIGH);
+      //   digitalWrite(LED_BUILTIN, HIGH);
     } else if (payload == "closed") {
       Serial.println("closed");
-     // digitalWrite(LED_BUILTIN, LOW);
+      // digitalWrite(LED_BUILTIN, LOW);
     }
   }
 }
@@ -217,16 +217,17 @@ void loop() {
   // JSON.stringify(myVar) can be used to convert the JSONVar to a String
   String jsonString = JSON.stringify(myObject);
 
+  Serial.println(jsonString);
 
 
   //  Serial.println();
 
   delay(20);
 
-    if (millis() - lastMillis > 5000) {
+  if (millis() - lastMillis > 5000) {
     lastMillis = millis();
     Serial.println(jsonString);
 
-    client.publish("/smart-foot-brace", jsonString); //PUBLISH TO TOPIC /hello MSG world
+    client.publish("/smart-foot-brace", jsonString);  //PUBLISH TO TOPIC /hello MSG world
   }
 }
