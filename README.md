@@ -1,6 +1,11 @@
 # smart-foot-brace
 notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node-RED UI
 
+
+## Version 0.3 Bluetooth Low Energy Version
+
+[![Video Demo](https://img.youtube.com/vi/2Io1VRFC9aA/0.jpg)](https://www.youtube.com/watch?v=2Io1VRFC9aA)
+
 ## Version 0.2 ESP32 + ZNX + IMU! + UI in Node-RED
 
 [![Video Demo](https://img.youtube.com/vi/2a6iHeYnoPc/0.jpg)](https://www.youtube.com/watch?v=2a6iHeYnoPc)
