@@ -230,7 +230,7 @@ void loop() {
     //bleSerial.print(dataset2);
     //bleSerial.flush();
     //Serial.println(dataset1);
-    delay(50);
+    delay(10);
     /*bleSerial.print(pitch);
     Serial.print(pitch);
     bleSerial.print(heading);

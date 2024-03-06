@@ -1,5 +1,7 @@
+A project managed by [Officine Innesto](https://officine.cc/smart-foot-brace-a-project-with-its-biotecnologie-from-colleretto-giacosa/) in collaboration with students from [ITS Biotecnologie](https://www.its-biotecnologiepiemonte.it/) from Colleretto Giacosa / Torino, Italy. 
+
 # smart-foot-brace
-notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node-RED UI
+notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node-RED UI (vers 01. and 0.2) and later using [BLE and P5js](https://github.com/vongomben/smart-foot-brace/tree/main/ble) (vers 0.3)
 
 
 ## Version 0.3 Bluetooth Low Energy Version
@@ -7,17 +9,18 @@ notes over a smart foot brace based on ZNX-01 and IMU, communicating with a Node
 [![Video Demo](https://img.youtube.com/vi/2Io1VRFC9aA/0.jpg)](https://www.youtube.com/watch?v=2Io1VRFC9aA)
 
 
+The sole sends data via BLE. 
+To visualize this project we used p5js, and its implementation of the BLE library
+Here is [the code](https://editor.p5js.org/vongomben/sketches/Wb9gCTJpH)
+
 La suola trasmette tutti i dati attraverso bluetooth. 
 Per visualizzare questo progetto abbiamo usato p5js, e la sua implementazione della libreria BLE
 Qui il [codice](https://editor.p5js.org/vongomben/sketches/Wb9gCTJpH)
 
-
-
-
 ## Version 0.2 ESP32 + ZNX + IMU! + UI in Node-RED
 
 [![Video Demo](https://img.youtube.com/vi/2a6iHeYnoPc/0.jpg)](https://www.youtube.com/watch?v=2a6iHeYnoPc)
-
+(sorry this is note yet subtitled)
 
 ![](https://github.com/vongomben/smart-foot-brace/blob/main/img/v02.png)
 
@@ -34,6 +37,8 @@ Qui il [codice](https://editor.p5js.org/vongomben/sketches/Wb9gCTJpH)
 |9  |MODULO DC-DC BOOST CONVERTER 2 AMPERE     |Buck   |Pinto       |056.044.3838      |056.044.3838      |                                                                                              |
 
 ![Alt text](image.png)
+
+Old info about version #1 (Italian only)
 
 ## Version 0.1 ESP32 + ZNX + UI in Node-RED
 
